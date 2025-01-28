@@ -1,0 +1,33 @@
+################################################
+# Syntax Coloring Map for AtomJoyStickReceiver
+################################################
+
+#######################################
+# Data types (KEYWORD1)
+#######################################
+
+ESPNOW_Transceiver      KEYWORD1
+AtomJoyStickReceiver    KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+
+
+#######################################
+# Structures (KEYWORD3)
+#######################################
+
+received_data_t         KEYWORD3
+peer_data_t             KEYWORD3
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+MODE_STABLE             LITERAL1
+MODE_SPORT              LITERAL1
+ALT_MODE_AUTO           LITERAL1
+ALT_MODE_MANUAL         LITERAL1

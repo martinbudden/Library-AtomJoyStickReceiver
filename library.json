@@ -1,0 +1,13 @@
+{
+    "name": "AtomJoyStickReceiver",
+    "description": "Receiver for Atom Joystick from M5Stack",
+    "keywords": "Atom Joystick M5Stack receiver",
+    "authors": {
+        "name": "Martin Budden",
+        "url": "https://github.com/martinbudden/Library-AtomJoyStickReceiver.git"
+    },
+    "license": "MIT",
+    "version": "0.0.1",
+    "frameworks": "*",
+    "platforms": "espressif32"
+}
