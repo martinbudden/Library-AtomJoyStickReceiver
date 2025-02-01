@@ -42,7 +42,7 @@ void ESPNOW_Transceiver::onDataReceived(const uint8_t* macAddress, const uint8_t
             transceiver->setPrimaryPeerMacAddress(macAddress);
         }
     }
-    transceiver->copyReceivedDataToBuffer(macAddress, data, len);
+    transceiver->copyReceivedDataToBuffer(macAddress, data, static_cast<size_t>(len));
 }
 
 ESPNOW_Transceiver::ESPNOW_Transceiver(const uint8_t* myMacAddress)
@@ -103,7 +103,7 @@ esp_err_t ESPNOW_Transceiver::init(received_data_t& received_data, uint8_t chann
     return ESP_OK;
 }
 
-esp_err_t ESPNOW_Transceiver::addBroadcastPeer(int channel)
+esp_err_t ESPNOW_Transceiver::addBroadcastPeer(uint8_t channel)
 {
     // set receivedDataPtr to nullptr so no broadcast data is copied
     _peerData[BROADCAST_PEER].receivedDataPtr = nullptr;
@@ -201,7 +201,7 @@ bool ESPNOW_Transceiver::copyReceivedDataToBuffer(const uint8_t* macAddress, con
         return false;
     }
 
-    for (int ii = PRIMARY_PEER; ii < _peerCount; ++ii) {
+    for (size_t ii = PRIMARY_PEER; ii < _peerCount; ++ii) {
         const auto& peerData = _peerData[ii];
         if (memcmp(macAddress, peerData.peer_info.peer_addr, ESP_NOW_ETH_ALEN) == 0) {
             if (ii == PRIMARY_PEER) {
@@ -211,7 +211,7 @@ bool ESPNOW_Transceiver::copyReceivedDataToBuffer(const uint8_t* macAddress, con
                 _tickCountPrevious = tickCount;
             }
             // copy the received data into the _peerData buffer
-            const int copyLength = std::min(len, peerData.receivedDataPtr->bufferSize); // so don't overwrite buffer
+            const size_t copyLength = std::min(len, peerData.receivedDataPtr->bufferSize); // so don't overwrite buffer
             memcpy(peerData.receivedDataPtr->bufferPtr, data, copyLength);
             // and set the _peerData length
             peerData.receivedDataPtr->len = copyLength;

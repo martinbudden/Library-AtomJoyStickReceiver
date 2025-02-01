@@ -12,7 +12,7 @@ esp_err_t AtomJoyStickReceiver::init(uint8_t channel, const uint8_t* transmitMac
     return  _transceiver.init(_received_data, channel, transmitMacAddress);
 }
 
-esp_err_t AtomJoyStickReceiver::broadcastMyMacAddressForBinding(int broadcastCount, int broadcastDelayMs) const
+esp_err_t AtomJoyStickReceiver::broadcastMyMacAddressForBinding(int broadcastCount, uint32_t broadcastDelayMs) const
 {
     // peer command as used by the StampFlyController, see: https://github.com/m5stack/Atom-JoyStick/blob/main/examples/StampFlyController/src/main.cpp#L117
     static const uint8_t peerCommand[4] { 0xaa, 0x55, 0x16, 0x88 };
@@ -44,15 +44,15 @@ int32_t AtomJoyStickReceiver::ubyte4float_to_Q4dot12(uint8_t f[4])
     };
     const bi_t n = { .b = { f[0], f[1], f[2], f[3] } };
 
-    const uint8_t  sign     = (n.i >> 31) & 0x1; // 0x1000 0000
-    const uint8_t  exponent = (n.i >> 23) & 0xFF; // 0x7F80 0000
+    const uint8_t  sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
+    const uint8_t  exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
     if (exponent == 0) {
         return 0;
     }
 
-    const uint32_t mantissa = (n.i & 0x7FFFFF) | 0x800000; // 0x007F FFFF, or in implicit bit
+    const uint32_t mantissa = (n.i & 0x7FFFFF) | 0x800000; // 0x007F FFFF, OR in implicit bit
 
-    const int32_t i = mantissa >> ((22-11) - (exponent - 0x80)); // -Wshift-count-overflow
+    const int32_t i = static_cast<int32_t>(mantissa >> ((22-11) - (exponent - 0x80))); // -Wshift-count-overflow
     return sign ? -i : i;
 }
 
@@ -69,7 +69,7 @@ bool AtomJoyStickReceiver::unpackPacket(checkPacket_t checkPacket)
     }
 
     uint8_t checksum = 0;
-    for (int ii = 0; ii < PACKET_SIZE - 1; ++ii) {
+    for (size_t ii = 0; ii < PACKET_SIZE - 1; ++ii) {
         checksum += _packet[ii];
     }
     if ((checkPacket == CHECK_PACKET) && checksum != _packet[PACKET_SIZE - 1]) {

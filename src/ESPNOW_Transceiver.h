@@ -36,7 +36,7 @@ public:
     inline uint32_t getTickCountDeltaAndReset() { const uint32_t tickCountDelta = _tickCountDelta; _tickCountDelta = 0; return tickCountDelta; }
 private:
     esp_err_t init(uint8_t channel);
-    esp_err_t addBroadcastPeer(int channel);
+    esp_err_t addBroadcastPeer(uint8_t channel);
     // when data is received the copy function is called to copy the received data into the client's buffer
     bool copyReceivedDataToBuffer(const uint8_t* macAddress, const uint8_t* data, size_t len);
     bool macAddressIsBroadCastMacAddress(const uint8_t* macAddress) const;

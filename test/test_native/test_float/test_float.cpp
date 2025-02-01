@@ -64,15 +64,15 @@ int32_t float32ToInt24(float x)
         uint32_t i;
     } n {.f = x};
 
-    const uint8_t  sign     = (n.i >> 31) & 0x1; // 0x1000 0000
-    const uint8_t  exponent = (n.i >> 23) & 0xFF; // 0x7F80 0000
+    const uint8_t  sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
+    const uint8_t  exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
     if (exponent == 0) {
         return 0;
     }
 
     const uint32_t mantissa = (n.i & 0x7FFFFF) | 0x800000; // 0x007F FFFF implicit bit
 
-    const int32_t i = mantissa >> (22 - (exponent - 0x80));
+    const int32_t i = static_cast<int32_t>(mantissa >> (22 - (exponent - 0x80)));
     return sign ? -i : i;
 }
 
@@ -94,15 +94,15 @@ int32_t float32_to_Q4dot12(float x)
         uint32_t i;
     } n {.f = x};
 
-    const uint8_t  sign     = (n.i >> 31) & 0x1; // 0x1000 0000
-    const uint8_t  exponent = (n.i >> 23) & 0xFF; // 0x7F80 0000
+    const uint8_t  sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
+    const uint8_t  exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
     if (exponent == 0) {
         return 0;
     }
 
     const uint32_t mantissa = (n.i & 0x7FFFFF) | 0x800000; // 0x007F FFFF, or in implicit bit
 
-    const int32_t i = mantissa >> ((22-11) - (exponent - 0x80));
+    const int32_t i = static_cast<int32_t>(mantissa >> ((22-11) - (exponent - 0x80)));
     return sign ? -i : i;
 }
 
@@ -124,15 +124,15 @@ int32_t ubyte4float_to_Q4dot12(uint8_t f[4])
         .b = { f[0], f[1], f[2], f[3] }
     };
 
-    const uint8_t  sign     = (n.i >> 31) & 0x1; // 0x1000 0000
-    const uint8_t  exponent = (n.i >> 23) & 0xFF; // 0x7F80 0000
+    const uint8_t  sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
+    const uint8_t  exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
     if (exponent == 0) {
         return 0;
     }
 
-    const uint32_t mantissa = (n.i & 0x7FFFFF) | 0x800000; // 0x007F FFFF, or in implicit bit
+    const uint32_t mantissa = (n.i & 0x7FFFFF) | 0x800000; // 0x007F FFFF, OR in implicit bit
 
-    const int32_t i = mantissa >> ((22-11) - (exponent - 0x80));
+    const int32_t i = static_cast<int32_t>(mantissa >> ((22-11) - (exponent - 0x80)));
     return sign ? -i : i;
 }
 
@@ -147,7 +147,7 @@ void test_fixed_convert()
     TEST_ASSERT_EQUAL(-4096, float32_to_Q4dot12(-2.0F));
 
     const float x = 0.48F;
-    int16_t a = float32_to_Q4dot12(x);
+    int16_t a = static_cast<int16_t>(float32_to_Q4dot12(x));
     TEST_ASSERT_EQUAL(floor(0.48*2048), a);
     float y = Q4dot12_to_float32(a);
     TEST_ASSERT_FLOAT_WITHIN(0.00008*x, x, y);
@@ -180,7 +180,7 @@ void test_byte_convert()
 
 
     x.f = 0.48F; // NOLINT(cppcoreguidelines-pro-type-union-access)
-    int16_t a = ubyte4float_to_Q4dot12(&x.b[0]);
+    int16_t a = static_cast<int16_t>(ubyte4float_to_Q4dot12(&x.b[0]));
     TEST_ASSERT_EQUAL(floor(0.48*2048), a);
     float y = Q4dot12_to_float32(a);
     TEST_ASSERT_FLOAT_WITHIN(0.00008*x.f, x.f, y); // NOLINT(cppcoreguidelines-pro-type-union-access)

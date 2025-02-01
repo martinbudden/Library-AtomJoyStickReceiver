@@ -26,7 +26,7 @@ public:
     inline bool isPacketEmpty() const { return _received_data.len == 0 ? true : false;  }
     inline void setPacketEmpty() { _received_data.len = 0; }
     inline const uint8_t* myMacAddress() const {return _transceiver.myMacAddress();}
-    esp_err_t broadcastMyMacAddressForBinding(int broadcastCount=DEFAULT_BROADCAST_COUNT, int broadcastDelayMs=DEFAULT_BROADCAST_DELAY_MS) const;
+    esp_err_t broadcastMyMacAddressForBinding(int broadcastCount=DEFAULT_BROADCAST_COUNT, uint32_t broadcastDelayMs=DEFAULT_BROADCAST_DELAY_MS) const;
 public:
     enum checkPacket_t { CHECK_PACKET, DONT_CHECK_PACKET };
     static int32_t ubyte4float_to_Q4dot12(uint8_t b[4]);
