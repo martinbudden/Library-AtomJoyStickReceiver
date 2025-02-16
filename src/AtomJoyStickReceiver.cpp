@@ -9,7 +9,7 @@ AtomJoyStickReceiver::AtomJoyStickReceiver(const uint8_t* myMacAddress) :
 
 esp_err_t AtomJoyStickReceiver::init(uint8_t channel, const uint8_t* transmitMacAddress)
 {
-    return  _transceiver.init(_received_data, channel, transmitMacAddress);
+    return _transceiver.init(_received_data, channel, transmitMacAddress);
 }
 
 esp_err_t AtomJoyStickReceiver::broadcastMyMacAddressForBinding(int broadcastCount, uint32_t broadcastDelayMs) const
@@ -44,8 +44,8 @@ int32_t AtomJoyStickReceiver::ubyte4float_to_Q4dot12(uint8_t f[4])
     };
     const bi_t n = { .b = { f[0], f[1], f[2], f[3] } };
 
-    const uint8_t  sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
-    const uint8_t  exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
+    const uint8_t sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
+    const uint8_t exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
     if (exponent == 0) {
         return 0;
     }

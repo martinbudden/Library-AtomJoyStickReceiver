@@ -64,8 +64,8 @@ int32_t float32ToInt24(float x)
         uint32_t i;
     } n {.f = x};
 
-    const uint8_t  sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
-    const uint8_t  exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
+    const uint8_t sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
+    const uint8_t exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
     if (exponent == 0) {
         return 0;
     }
@@ -94,8 +94,8 @@ int32_t float32_to_Q4dot12(float x)
         uint32_t i;
     } n {.f = x};
 
-    const uint8_t  sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
-    const uint8_t  exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
+    const uint8_t sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
+    const uint8_t exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
     if (exponent == 0) {
         return 0;
     }
@@ -124,8 +124,8 @@ int32_t ubyte4float_to_Q4dot12(uint8_t f[4])
         .b = { f[0], f[1], f[2], f[3] }
     };
 
-    const uint8_t  sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
-    const uint8_t  exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
+    const uint8_t sign     = static_cast<uint8_t>((n.i >> 31) & 0x1); // 0x1000 0000
+    const uint8_t exponent = static_cast<uint8_t>((n.i >> 23) & 0xFF); // 0x7F80 0000
     if (exponent == 0) {
         return 0;
     }
@@ -138,7 +138,7 @@ int32_t ubyte4float_to_Q4dot12(uint8_t f[4])
 
 float Q4dot12_to_float32(int16_t a)
 {
-   return static_cast<float>(a) / 2048.0F;
+    return static_cast<float>(a) / 2048.0F;
 }
 
 void test_fixed_convert()

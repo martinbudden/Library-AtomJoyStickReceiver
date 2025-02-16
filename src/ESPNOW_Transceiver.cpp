@@ -146,7 +146,7 @@ esp_err_t ESPNOW_Transceiver::addSecondaryPeer(received_data_t& received_data, c
 
 bool ESPNOW_Transceiver::isPrimaryPeerMacAddressSet() const
 {
-     return _isPrimaryPeerMacAddressSet;
+    return _isPrimaryPeerMacAddressSet;
 }
 
 bool ESPNOW_Transceiver::macAddressIsBroadCastMacAddress(const uint8_t* macAddress) const
